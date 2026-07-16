@@ -1,6 +1,7 @@
 'use client'
 import axios from "axios";
 import { useState } from 'react'
+import Link from "next/link";
 import Popup from "@/app/components/Popup";
 
 const AUTH_BASE_URL = "http://localhost:5000/auth";
@@ -22,9 +23,14 @@ export default function App() {
     const closePopup = () => setPopup(null);
 
     return (
-        <div className="flex flex-col h-screen justify-center items-center bg-gray-50 dark:bg-gray-900">
-            <label className="text-5xl p-3">Signup</label>
-            <form className="max-w-md mx-auto w-70" onSubmit={async (e)=>{
+        <main className="flex min-h-screen items-center justify-center px-6 py-10">
+            <div className="app-card w-full max-w-xl rounded-4xl px-6 py-8 md:px-10 md:py-12">
+                <div className="space-y-2">
+                    <p className="text-sm font-semibold uppercase tracking-[0.18em] text-(--muted)">Account</p>
+                    <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">Create account</h1>
+                    <p className="text-sm text-(--muted)">Use the same red and white palette across the signup flow.</p>
+                </div>
+                <form className="mt-8 space-y-5" onSubmit={async (e)=>{
                     e.preventDefault();
                     if (loading) {
                         return;
@@ -70,23 +76,29 @@ export default function App() {
                         setLoading(false);
                     }
                 }}>
-                <div className="relative z-0 w-full mb-5 group">
-                    <input type="text" name="floating_user_name" id="floating_user_name" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required  value={form.username} onChange={(e)=>{setForm({...form,username:e.target.value})}}/>
-                    <label htmlFor="floating_user_name" className="absolute text-sm text-body duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Username</label>
+                <div className="space-y-2">
+                    <label htmlFor="floating_user_name" className="app-label block text-sm font-medium">Username</label>
+                    <input type="text" name="floating_user_name" id="floating_user_name" className="app-input" placeholder="Your display name" required  value={form.username} onChange={(e)=>{setForm({...form,username:e.target.value})}}/>
                 </div>
-                <div className="relative z-0 w-full mb-5 group">
-                    <input type="email" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required value={form.email} onChange={(e)=>{setForm({...form,email:e.target.value})}}/>
-                    <label htmlFor="floating_email" className="absolute text-sm text-body duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Email address</label>
+                <div className="space-y-2">
+                    <label htmlFor="floating_email" className="app-label block text-sm font-medium">Email address</label>
+                    <input type="email" name="floating_email" id="floating_email" className="app-input" placeholder="name@company.com" required value={form.email} onChange={(e)=>{setForm({...form,email:e.target.value})}}/>
                 </div>
-                <div className="relative z-0 w-full mb-5 group">
-                    <input type="password" name="floating_password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required value={form.password} onChange={(e)=>{setForm({...form,password:e.target.value})}}/>
-                    <label htmlFor="floating_password" className="absolute text-sm text-body duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Password</label>
+                <div className="space-y-2">
+                    <label htmlFor="floating_password" className="app-label block text-sm font-medium">Password</label>
+                    <input type="password" name="floating_password" id="floating_password" className="app-input" placeholder="Enter a secure password" required value={form.password} onChange={(e)=>{setForm({...form,password:e.target.value})}}/>
                 </div>
-                <button type="submit" disabled={loading} className="text-white bg-brand box-border border border-transparent hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none disabled:opacity-60 disabled:cursor-not-allowed">
-                    {loading ? 'Submitting...' : 'Submit'}
-                </button>
-            </form>
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                    <button type="submit" disabled={loading} className="app-button-primary px-5 py-3 text-sm">
+                        {loading ? 'Submitting...' : 'Submit'}
+                    </button>
+                    <Link href="/" className="app-button-secondary px-5 py-3 text-sm">
+                        Back home
+                    </Link>
+                </div>
+                </form>
+            </div>
             {popup && <Popup type={popup.type} message={popup.message} onClose={closePopup} />}
-        </div>
+        </main>
     );
 }
